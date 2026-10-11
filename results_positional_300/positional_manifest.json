@@ -1,0 +1,21 @@
+{
+  "n_examples": 300,
+  "n_positions": 3,
+  "n_sae_features": 24576,
+  "shape": [
+    300,
+    3,
+    24576
+  ],
+  "array_axis_order": [
+    "example_row",
+    "position_1_to_K_earliest_to_latest",
+    "sae_feature"
+  ],
+  "hook_point": "blocks.8.hook_resid_pre",
+  "model": "gpt2",
+  "sae_release": "gpt2-small-res-jb",
+  "sae_id": "blocks.8.hook_resid_pre",
+  "scoring": "normalize_token(generated_text) == task.expected.strip()",
+  "metadata_csv": "positional_metadata.csv"
+}

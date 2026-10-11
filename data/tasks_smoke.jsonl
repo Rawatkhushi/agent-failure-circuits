@@ -1,0 +1,5 @@
+{"prompt": "After Karen and James went to the store, Karen gave the gift to", "expected": " James", "subject": "Karen", "indirect_object": "James", "place": "the store", "object": "the gift", "template_id": 1, "n_steps": 1, "id": 0}
+{"prompt": "Once Susan and Dan arrived at the park, Susan passed the keys to", "expected": " Dan", "subject": "Susan", "indirect_object": "Dan", "place": "the park", "object": "the keys", "template_id": 3, "n_steps": 1, "id": 1}
+{"prompt": "After Mary and John went to the park, Mary gave the ball to", "expected": " John", "subject": "Mary", "indirect_object": "John", "place": "the park", "object": "the ball", "template_id": 1, "n_steps": 1, "id": 2}
+{"prompt": "Once Jessica and Kevin arrived at the store, Jessica passed the ball to", "expected": " Kevin", "subject": "Jessica", "indirect_object": "Kevin", "place": "the store", "object": "the ball", "template_id": 3, "n_steps": 1, "id": 3}
+{"prompt": "After Susan and Robert went to the office, Susan gave a drink to", "expected": " Robert", "subject": "Susan", "indirect_object": "Robert", "place": "the office", "object": "a drink", "template_id": 1, "n_steps": 1, "id": 4}

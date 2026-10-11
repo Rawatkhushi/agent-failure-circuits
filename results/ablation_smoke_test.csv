@@ -1,0 +1,6 @@
+id,object,expected,base_pred,abl_pred,base_ok,abl_ok,is_keys
+0,the gift,James,James,James,1,1,0
+1,the keys,Dan,the,the,0,0,1
+2,the ball,John,John,John,1,1,0
+3,the ball,Kevin,Kevin,Kevin,1,1,0
+4,a drink,Robert,Robert,Robert,1,1,0
