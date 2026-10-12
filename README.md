@@ -5,9 +5,9 @@ target language model's residual stream through a sparse autoencoder
 (SAE), and identifies which SAE features fire differently on failed
 vs. successful runs.
 
-Accompanies the IEEE Big Data 2026 submission *"Reading Task Failure
+Accompanies the IEEE Big Data 2026 submission _"Reading Task Failure
 Off the Activations: A Sparse-Feature Audit of GPT-2 Small on Indirect
-Object Identification"*.
+Object Identification"_.
 
 The pipeline runs end-to-end on a laptop (Apple Silicon MPS or CPU) in
 about 20 minutes. No GPU required for the GPT-2 small experiment in
@@ -22,11 +22,11 @@ this repository.
 - 146 of the 24,576 SAE features (layer 8, `gpt2-small-res-jb`) clear a
   Holm-corrected significance threshold
 - The single strongest predictor of failure is feature **17,491**
-  (Cohen's *d* = +2.93). Neuronpedia labels it a *"cryptographic keys"*
+  (Cohen's _d_ = +2.93). Neuronpedia labels it a _"cryptographic keys"_
   detector
 - Among the eight transferred-object choices in the prompts, `"the keys"`
   fails 93.3% of the time vs. 7.5% for the rest
-  (Fisher exact *p* < 10⁻⁵, odds ratio ≈ 174)
+  (Fisher exact _p_ < 10⁻⁵, odds ratio ≈ 174)
 - Cause: surface-form interference. The IOI prompts using `"the keys"`
   trigger a feature aligned to a different concept ("cryptographic
   keys"), which disrupts the IOI computation downstream
@@ -89,11 +89,13 @@ python src/analyze_conditional.py
 ```
 
 The expected output of step 3 ends with:
+
 ```
 final acc: 239/300 = 0.797
 ```
 
 The expected output of step 4 ends with:
+
 ```
 Significant (Holm p < 0.05): 146 / 24576
 |Cohen's d| > 0.5: 209 / 24576
@@ -131,12 +133,14 @@ print(preds.groupby("object").success.agg(["mean", "count"]))
 ## Methodology notes
 
 ### Model and SAE
+
 - **Model**: GPT-2 small (124M, 12 layers, 768-dim residual stream),
   loaded via TransformerLens.
 - **SAE**: `gpt2-small-res-jb`, layer 8 (`blocks.8.hook_resid_pre`),
   loaded via `sae_lens`. d_sae = 24,576.
 
 ### Task: IOI (Wang et al. 2022)
+
 - 4 sentence templates × 29 names × 8 places × 8 objects, seeded
   procedural generator
 - Single-token completion with greedy decoding
@@ -144,14 +148,16 @@ print(preds.groupby("object").success.agg(["mean", "count"]))
   expected indirect-object name (exact match, case-sensitive)
 
 ### Per-task feature logging
+
 - Forward pass with `model.run_with_cache(prompt, names_filter=[hook])`
 - Mean SAE encoding over the last 3 residual-stream tokens of the
   prompt (the tokens immediately before the predicted answer)
 - One ℝ^24576 vector per task
 
 ### Per-feature statistics
-- Welch's *t*-test, two-sided, conservative df = min(n_fail, n_succ) − 1
-- Cohen's *d* with pooled SD
+
+- Welch's _t_-test, two-sided, conservative df = min(n_fail, n_succ) − 1
+- Cohen's _d_ with pooled SD
 - Holm-Bonferroni correction across all 24,576 features
 
 ---
@@ -218,3 +224,23 @@ Scope, swap the release/id; everything else stays the same.
 ## License
 
 MIT.
+
+## Per-position IOI analysis (complete pipeline)
+
+Starts from the saved positional activations (`results_positional_300/`, shape 300 x 3 x 24,576) and needs no model or GPU:
+
+```bash
+python src/run_position_pipeline.py        # ~1 minute; writes results_positional_300_robust/
+python -m pytest tests -q                  # 24 offline tests
+```
+
+| step                                 | script                                                       | output                                                                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1 verify data                        | `src/verify_positional_data.py`                              | 12 PASS/FAIL checks                                                                                                                              |
+| 2 per-position stats                 | `src/analyze_positions_robust.py`                            | Welch + Holm (complete 3 x 24,576 family), max-T permutation, object-stratified; CSV, top-features md, figure, averaged-vs-positional comparison |
+| 3 without keys / template-stratified | same script, `--exclude-object`, `--stratify-by template_id` | `*_no_keys`, `*_strat_template` files                                                                                                            |
+| 4 template/object effects            | `src/analyze_templates.py`                                   | `template_analysis.md/json`                                                                                                                      |
+| 5 stability                          | `src/stability_positions.py`                                 | bootstrap, split-half (with label-permuted baseline), leave-one-template-out                                                                     |
+| 6 report                             | `src/run_position_pipeline.py`                               | `FINAL_REPORT.md` (every number computed from the outputs)                                                                                       |
+
+To regenerate the activations themselves (needs the model): `python src/run_experiment_positional.py` (see its `--help`), then rerun the pipeline.

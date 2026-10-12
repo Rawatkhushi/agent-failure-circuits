@@ -1,0 +1,64 @@
+{
+  "template_all": {
+    "n": 300,
+    "failures": 61,
+    "chi2": 2.233,
+    "perm_p": 0.53422
+  },
+  "template_keys_only": {
+    "n": 45,
+    "failures": 42,
+    "chi2": 5.0,
+    "perm_p": 0.24539
+  },
+  "template_nonkeys": {
+    "n": 255,
+    "failures": 19,
+    "chi2": 15.917,
+    "perm_p": 0.001
+  },
+  "object_nonkeys": {
+    "n": 255,
+    "failures": 19,
+    "chi2": 13.019,
+    "perm_p": 0.0401
+  },
+  "article_nonkeys": {
+    "n": 255,
+    "failures": 19,
+    "chi2": 0.464,
+    "perm_p": 0.63142
+  },
+  "failures_by_template_nonkeys": {
+    "0": 1,
+    "1": 1,
+    "2": 4,
+    "3": 13
+  },
+  "failures_by_template_keys": {
+    "0": 12,
+    "1": 14,
+    "2": 7,
+    "3": 9
+  },
+  "fail_rate_by_template_all": {
+    "0": 0.178,
+    "1": 0.197,
+    "2": 0.169,
+    "3": 0.256
+  },
+  "nonkeys_top_template": {
+    "template_id": 3,
+    "fails": 13,
+    "n": 77,
+    "rest_fails": 6,
+    "rest_n": 178,
+    "fisher_p": 0.00040132068155287467
+  },
+  "template_examples": {
+    "0": "When Lily and Chris went to the gym, Chris gave the keys to",
+    "1": "After Karen and James went to the store, Karen gave the gift to",
+    "2": "While James and Alex were at the gym, Alex handed a card to",
+    "3": "Once Susan and Dan arrived at the park, Susan passed the keys to"
+  }
+}
